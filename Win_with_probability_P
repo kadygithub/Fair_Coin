@@ -1,0 +1,43 @@
+import math
+# n:total number of trials for each player
+# k:minimum number of times a coin  successes in a sequence of n trials (e.g. lands head  at least k times and lands tail  at most n-k times)
+
+# Objective is to design a gaim that we garantee the a player  who would win with probability equal to P
+# this probability can be computed as:cpmf= cummulative pmf, where pmf= different ways of distributing k in a sequence of n trials]*[(1/2)^k][(1/2)^(n-k]
+# So we need to design or find k and n given probability P.
+import operator as op
+from functools import reduce
+def design_game(P):
+    
+    min_error=1
+    for n in range(20):
+        
+        for k in range(1,n):
+            #compute combination formula:nck 
+            cpmf=0
+            for c in range(k,n+1):
+                cpmf+=nck(n,c)*pow(0.5,c)*pow(0.5,(n-c))
+            #print (n,k,cpmf)
+            error=abs(cpmf-P)
+            
+            if error<min_error :
+                print (error,'is smaller than',min_error)
+                min_error=error
+                desired_k=k
+                desired_n=n
+                final_win_probability=cpmf
+            
+    return desired_n,desired_k,final_win_probability,min_error,
+        
+        
+
+def nck(n, k):
+    k = min(k, n-k)
+    top = reduce(op.mul, range(n, n-k, -1), 1)
+    bottom = reduce(op.mul, range(1, k+1), 1)
+    return top / bottom
+[n,k,p,e]=design_game(0.7)   
+print("n: ",n)
+print("k: ",k)
+print("Probability of winning: ",p) 
+print("error: ",e)    
