@@ -1,10 +1,24 @@
-import math
-# n:total number of trials for each player
-# k:minimum number of times a coin  successes in a sequence of n trials (e.g. lands head  at least k times and lands tail  at most n-k times)
+'''
+we have two players and a fair coin, the goal is design the game to win with given probability P:
+1- we can consider n, k as follows:
+n:total number of trials for each player
+k:minimum number of times a coin  successes in a sequence of n trials (e.g. lands head  at least k times and lands tail  at most n-k times)
 
-# Objective is to design a gaim that we garantee the a player  who would win with probability equal to P
-# this probability can be computed as:cpmf= cummulative pmf, where pmf= different ways of distributing k in a sequence of n trials]*[(1/2)^k][(1/2)^(n-k]
-# So we need to design or find k and n given probability P.
+Objective is to design a game that we guarantee that you can win with probability equal to P
+this probability can be computed as: cpmf= cumulative pmf, where pmf is the probability mass function that follows binomial distribution. 
+pmf= [different ways of distributing k in a sequence of n trials]*[(1/2)^k][(1/2)^(n-k))
+Then we need to find the cumulative pmf for all successes greater than k, since winner must have k or more successes.
+   
+# So we need to design  k and n given probability P.
+I iterate through different values of n and k and compute the cpmf for each of those k and n. then I calculate the error as abs(P-cpmf) and 
+try to find  the minimum value of error and the corresponding values of n and k.
+After running the code, I found the optimum values of n, k, probability for given probability 0.7 as follows:
+**** total number of trials: 15
+**** minimum number of tails/heads to win :7
+*** probability of winning : 0.696380615234375
+'''
+
+import math
 import operator as op
 from functools import reduce
 def design_game(P):
